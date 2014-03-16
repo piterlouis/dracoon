@@ -1,111 +1,111 @@
 
 grammar DracoonGrammar
 
-	# Documents basic structure -----------------------------------------------
+    # Documents basic structure -----------------------------------------------
 
-	rule module
-		('#module' ws+ header scene*)* <ModuleNode>
-	end
+    rule module
+        ('#module' ws+ header (scene / item)*)* <ModuleNode>
+    end
 
-	rule scene
-		'#scene' ws+ header (passage / object)* <SceneNode>
-	end
+    rule scene
+        '#scene' ws+ header passage* <SceneNode>
+    end
 
-	rule passage
-		'#passage' ws+ header content (action nl+)* <PassageNode>
-	end
+    rule passage
+        '#passage' ws+ header content (action nl+)* <PassageNode>
+    end
 
-	rule object
-		'#object' ws+ header content (action nl+)* <ObjectNode>
-	end
+    rule item
+        '#item' ws+ header content (action nl+)* <ItemNode>
+    end
 
-	rule header
-		identifier (ws* '[' ws* state ws* ']')? (ws+ description)? (wsnl* scriptWrapper)? nl+ <HeaderNode>
-	end
+    rule header
+        identifier (ws* '[' ws* state ws* ']')? (ws+ summary)? (wsnl* scriptWrapper)? nl+ <HeaderNode>
+    end
 
-	rule description
-		(word / punctuation) (ws+ (word / punctuation))*  <DescriptionNode>
-	end
+    rule summary
+        (word / punctuation) (ws+ (word / punctuation))*  <SummaryNode>
+    end
 
-	rule content
-		(word / punctuation / inlineTag / logicTag / link / endp / nl / ws)* <ContentNode>
-	end
-
-
-	# Advanced contents -------------------------------------------------------
-
-	rule link
-		'[' (ws* word)+ (ws* '|' ws* keyword)? ws* ']' <LinkNode>
-	end
-
-	rule action
-		'[' ws* keyword ws* scriptWrapper ws* ']' <ActionNode>
-	end
-
-	rule scriptWrapper
-		'<%' wsnl* script wsnl* '%>'
-	end
-
-	rule script
-		(!(wsnl* '%>') .)* <ScriptNode>
-	end
-
-	rule inlineTag
-		'<%=' wsnl* script wsnl* '%>' <InlineTagNode>
-	end
-
-	rule logicTag
-		ifTag / scriptTag
-	end
-
-	rule ifTag
-		'{{' wsnl* 'if' wsnl+ condition wsnl* content wsnl* ('|' wsnl* 'if' wsnl+ condition wsnl* content wsnl*)* ('|' wsnl* content wsnl*)? '}}' <IfTagNode>
-	end
-
-	rule condition
-		 jsExpr wsnl* ':'
-	end
-
-	rule scriptTag
-		'{{' ws* 'script' ws* scriptWrapper '}}' <ScriptTagNode>
-	end
-
-	rule jsExpr
-		(!(wsnl* ':') .)* <JSExprNode>
-	end
+    rule content
+        (word / punctuation / inlineTag / logicTag / link / endp / nl / ws)* <ContentNode>
+    end
 
 
-	# Terminal symbols --------------------------------------------------------
+    # Advanced contents -------------------------------------------------------
 
-	rule boolean
-		"yes"  <BooleanNode>
-		/ "no" <BooldeanNode>
-	end
-	rule nil        "null"                   <NilNode> end
-	rule identifier [a-zA-Z0-9_]+             <IdentifierNode> end
-	rule state      [a-zA-Z0-9_]+             <StateNode> end
-	rule string     '"' ('\"' / !'"' .)* '"' <StringNode> end
-	rule keyword    [a-zA-Z_] [a-zA-Z0-9_]*    <KeywordNode> end
-	rule number     [0-9]+ ('.' [0-9]+)?     <NumberNode> end
-	rule word       [a-zñáéíóúüA-ZÑÁÉÍÓÚÜ0-9_]+ <WordNode> end
-	rule endp       nl nl+                   <EndParagraphNode> end
+    rule link
+        '[' (ws* word)+ (ws* '|' ws* keyword)? ws* ']' <LinkNode>
+    end
 
-	rule punctuation
-		':'    <PunctuationNode>
-		/ ';'  <PunctuationNode>
-		/ '.'  <PunctuationNode>
-		/ ','  <PunctuationNode>
-		/ '('  <PunctuationNode>
-		/ ')'  <PunctuationNode>
-		/ "'"  <PunctuationNode>
-		/ "?"  <PunctuationNode>
-		/ "!"  <PunctuationNode>
-		/ '--' <PunctuationNode>
-	end
+    rule action
+        '[' ws* keyword ws* scriptWrapper ws* ']' <ActionNode>
+    end
 
-	rule wsnl [\s]                 end
-	rule ws   [ \t]                end
-	rule nl   "\r\n" / "\r" / "\n" <NewLineNode> end
-	rule eof  !.                   end
+    rule scriptWrapper
+        '<%' wsnl* script wsnl* '%>'
+    end
+
+    rule script
+        (!(wsnl* '%>') .)* <ScriptNode>
+    end
+
+    rule inlineTag
+        '<%=' wsnl* script wsnl* '%>' <InlineTagNode>
+    end
+
+    rule logicTag
+        ifTag / scriptTag
+    end
+
+    rule ifTag
+        '{{' wsnl* 'if' wsnl+ condition wsnl* content wsnl* ('|' wsnl* 'if' wsnl+ condition wsnl* content wsnl*)* ('|' wsnl* content wsnl*)? '}}' <IfTagNode>
+    end
+
+    rule condition
+         jsExpr wsnl* ':'
+    end
+
+    rule scriptTag
+        '{{' ws* 'script' ws* scriptWrapper '}}' <ScriptTagNode>
+    end
+
+    rule jsExpr
+        (!(wsnl* ':') .)* <JSExprNode>
+    end
+
+
+    # Terminal symbols --------------------------------------------------------
+
+    rule boolean
+        "yes"  <BooleanNode>
+        / "no" <BooldeanNode>
+    end
+    rule nil        "null"                   <NilNode> end
+    rule identifier [a-zA-Z0-9_]+             <IdentifierNode> end
+    rule state      [a-zA-Z0-9_]+             <StateNode> end
+    rule string     '"' ('\"' / !'"' .)* '"' <StringNode> end
+    rule keyword    [a-zA-Z_] [a-zA-Z0-9_]*    <KeywordNode> end
+    rule number     [0-9]+ ('.' [0-9]+)?     <NumberNode> end
+    rule word       [a-zñáéíóúüA-ZÑÁÉÍÓÚÜ0-9_]+ <WordNode> end
+    rule endp       nl nl+                   <EndParagraphNode> end
+
+    rule punctuation
+        ':'    <PunctuationNode>
+        / ';'  <PunctuationNode>
+        / '.'  <PunctuationNode>
+        / ','  <PunctuationNode>
+        / '('  <PunctuationNode>
+        / ')'  <PunctuationNode>
+        / "'"  <PunctuationNode>
+        / "?"  <PunctuationNode>
+        / "!"  <PunctuationNode>
+        / '--' <PunctuationNode>
+    end
+
+    rule wsnl [\s]                 end
+    rule ws   [ \t]                end
+    rule nl   "\r\n" / "\r" / "\n" <NewLineNode> end
+    rule eof  !.                   end
 
 end
