@@ -3,7 +3,7 @@
 module Dracoon
 
     load 'dracoon_nodes.rb'
-    load 'dracoon_sqlite.rb'
+    load 'dracoon_sqlite2.rb'
 
     require 'treetop'
 
@@ -31,7 +31,7 @@ module Dracoon
                 #puts '==> RESULTS:'
                 # puts ast.inspect
                 puts '==> Writing gamebook file...'
-                @writer.writeModule(ast)
+                @writer.writeAST(ast, nil)
             else
                 @parser.failure_reason =~ /^(Expected .+) after/m
                 puts "#{$1.gsub("\n", '$NEWLINE')}:"
