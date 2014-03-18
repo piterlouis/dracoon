@@ -150,12 +150,6 @@ module DracoonGrammar
         end
     end
 
-    class BooleanNode < Treetop::Runtime::SyntaxNode
-    end
-
-    class NilNode < Treetop::Runtime::SyntaxNode
-    end
-
     class KeywordNode < Treetop::Runtime::SyntaxNode
     public
         def cutdown

@@ -77,11 +77,6 @@ grammar DracoonGrammar
 
     # Terminal symbols --------------------------------------------------------
 
-    rule boolean
-        "yes"  <BooleanNode>
-        / "no" <BooldeanNode>
-    end
-    rule nil        "null"                   <NilNode> end
     rule identifier [a-zA-Z0-9_]+             <IdentifierNode> end
     rule state      [a-zA-Z0-9_]+             <StateNode> end
     rule string     '"' ('\"' / !'"' .)* '"' <StringNode> end
