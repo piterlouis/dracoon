@@ -70,7 +70,7 @@ module Dracoon
             elsif node.is_a? WordNode         then self.writeNode(node, parent, TYPE_WORD, content)
             elsif node.is_a? NumberNode       then self.writeNode(node, parent, TYPE_NUMBER, content)
             elsif node.is_a? PunctuationNode  then self.writeNode(node, parent, TYPE_PUNCTUATION, content)
-            elsif node.is_a? ScriptNode       then self.writeNode(node, parent, TYPE_SCRIPT, content)
+            elsif node.is_a? ScriptNode       then self.writeScript(node, parent)
             elsif node.is_a? InlineTagNode    then self.writeNode(node, parent, TYPE_INLINETAG)
             elsif node.is_a? IfTagNode        then self.writeNode(node, parent, TYPE_IFTAG)
             elsif node.is_a? ScriptTagNode    then self.writeNode(node, parent, TYPE_SCRIPTTAG)
@@ -167,6 +167,14 @@ module Dracoon
             end
 
             @currentPassage = node
+        end
+
+        def writeScript(node, parent)
+            jscode = node.text_value
+            self.writeNode(node, parent, TYPE_SCRIPT)
+            jscode = "var o#{node.oid} = {#{jscode}} ;"
+            jscode = Uglifier.compile(jscode, :mangle => false)
+            @db.execute("update Nodes set content = ? where oid = ?", jscode, node.oid)
         end
 
 
