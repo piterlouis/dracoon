@@ -3,7 +3,7 @@
 module Dracoon
 
     load 'dracoon_nodes.rb'
-    load 'dracoon_sqlite2.rb'
+    load 'dracoon_sqlite.rb'
 
     require 'treetop'
 

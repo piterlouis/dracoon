@@ -1,0 +1,6 @@
+#! /usr/bin/env ruby
+
+require 'dracoon'
+
+dracoonParser = Dracoon::DracoonParser.new
+dracoonParser.processDirectory(".")
