@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = "dracoon"
-  s.version     = "1.0.0.beta1"
+  s.version     = "1.0.0.beta2"
   s.date        = "2014-03-30"
   s.summary     = "Dracoon, the amaizing tool to compile interactive fiction books."
   s.description = "Dracoon is a language and compiler to write interactive fiction books."
@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.executables = ["dracoon"]
   s.add_runtime_dependency "treetop", ["~> 1.5"]
   s.add_runtime_dependency "uglifier", ["~> 2.5"]
+  s.add_runtime_dependency "sqlite3", ["~> 1.3"]
 end
