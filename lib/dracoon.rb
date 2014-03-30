@@ -1,4 +1,3 @@
-#! /usr/bin/ruby
 
 module Dracoon
 
