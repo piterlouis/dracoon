@@ -10,29 +10,31 @@ module Dracoon
     class SQLiteWriter
         include DracoonGrammar
 
-        TYPE_MODULE       =  1
-        TYPE_HEADER       =  2
+        TYPE_ROOT         =  1
+        TYPE_MODULE       =  2
         TYPE_SCENE        =  3
         TYPE_PASSAGE      =  4
         TYPE_ITEM         =  5
-        TYPE_SUMMARY      =  6
-        TYPE_ENDPARAGRAPH =  7
-        TYPE_CONTENT      =  8
-        TYPE_ACTION       =  9
-        TYPE_NEWLINE      = 10
-        TYPE_LINK         = 11
-        TYPE_IDENTIFIER   = 12
-        TYPE_STATE        = 13
-        TYPE_STRING       = 14
-        TYPE_KEYWORD      = 15
-        TYPE_WORD         = 16
-        TYPE_NUMBER       = 17
-        TYPE_PUNCTUATION  = 18
-        TYPE_SCRIPT       = 19
-        TYPE_INLINETAG    = 20
-        TYPE_IFTAG        = 21
-        TYPE_SCRIPTTAG    = 22
-        TYPE_JSEXPR       = 23
+        TYPE_HEADER       =  6
+        TYPE_STATE        =  7
+        TYPE_SUMMARY      =  8
+        TYPE_CONTENT      =  9
+        TYPE_ACTION       = 10
+        TYPE_NEWLINE      = 11
+        TYPE_ENDPARAGRAPH = 12
+        TYPE_LINK         = 13
+        TYPE_IDENTIFIER   = 14
+        TYPE_STRING       = 15
+        TYPE_KEYWORD      = 16
+        TYPE_WORD         = 17
+        TYPE_NUMBER       = 18
+        TYPE_PUNCTUATION  = 19
+        TYPE_SCRIPT       = 20
+        TYPE_JSEXPR       = 21
+        TYPE_INLINETAG    = 22
+        TYPE_IFTAG        = 23
+        TYPE_SCRIPTTAG    = 24
+
 
         @db = nil
         @currentModule  = nil
@@ -78,6 +80,9 @@ module Dracoon
             node.elements.each { |e|
                 self.writeAST(e, node)
             } unless node.elements.nil?
+
+            # Updating all modules to point to root node
+            @db.execute("update Nodes set idParent = 1 where type = ? and idParent is NULL", TYPE_MODULE)
         end
 
         def writeNode(node, parent, type, content=nil)
@@ -200,6 +205,8 @@ module Dracoon
             @db.execute("create table Scenes   ( idNode integer, idModule integer, name text )")
             @db.execute("create table Items    ( idNode integer, idModule integer, name text )")
             @db.execute("create table Modules  ( idNode integer, name text )")
+            # Inserting root node
+            @db.execute("insert into Nodes (type) values (?)", TYPE_ROOT)
         end
 
     end
