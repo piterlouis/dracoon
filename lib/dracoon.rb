@@ -2,10 +2,11 @@
 
 module Dracoon
 
+    require 'treetop'
+
+    load 'dracoon_core.rb'
     load 'dracoon_nodes.rb'
     load 'dracoon_sqlite.rb'
-
-    require 'treetop'
 
     class DracoonParser
         @parser
@@ -13,7 +14,7 @@ module Dracoon
 
         public
         def initialize
-            Treetop.load 'dracoon'
+            #Treetop.load 'dracoon'
             @parser = DracoonGrammarParser.new
             @writer = Dracoon::SQLiteWriter.new
         end
@@ -54,6 +55,3 @@ module Dracoon
 
     end
 end
-
-dracoonParser = Dracoon::DracoonParser.new
-dracoonParser.processDirectory(".")

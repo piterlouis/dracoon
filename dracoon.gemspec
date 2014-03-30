@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.email       = 'piterlouis@gmail.com'
   s.files       = [
     "lib/dracoon.rb",
-    "lib/dracoon.treetop",
+    "lib/dracoon_core.rb",
     "lib/dracoon_nodes.rb",
     "lib/dracoon_sqlite.rb"
   ]

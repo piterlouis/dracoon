@@ -1,0 +1,96 @@
+#module Prologo
+
+#scene S1_Celda
+
+#passage celda <%
+	firstVisitBlock: function() {
+		player.addItem('RopaRaida');
+		player.addItem('Capa');
+		player.addItem('Amuleto');
+	}
+%>
+{{if (player.hasItem("jander")):
+	Este es el texto de la primera opcion.
+| if (player.hasItem("otherJander")):
+	Este es el texto de la segunda opcion.
+|
+	Este es el texto final que debe aparecer si no se cumple ninguna otra opcion.
+}}
+Pasan minutos, eternos, mientras tu entumecido cuerpo comienza a recobrar algo de lo que antaño fuera. Te palpas la cara, notas costras endurecidas de algo que podría ser sangre, tus cabellos están grasientos, parecen largos, o quizás llevas mucho tiempo aquí encerrado sin haberlos cortado. Una capucha cubre tu cara, ataviada llevas una gruesa capa sin la que hubieras muerto de frío.
+
+Miras a tu alrededor, ves algunas formas con la luz que se filtra por las rendijas de la [puerta]. Parece que estas en una pequeña habitación de desnuda piedra, sin nada mas de mobiliario, con un pequeño [sumidero] en el centro, del que emana un nauseabundo [hedor].
+
+La humedad y el frío son tus únicos compañeros, junto al repiqueteo de gotas de agua cayendo desde las esquinas.
+
+[puerta <% touch:function(){ turnTo('lookPuerta') } %>]
+[sumidero <% touch:function(){ turnTo('lookSumidero') } %>]
+[hedor <% touch:function(){ turnTo('lookHedor') } %>]
+[portezuela <% open:function(){ turnTo('abrirPortezuela') } %>]
+
+
+#passage lookPuerta <%
+	type:"info",
+	image:"door-01"
+%>
+Es una dura puerta de madera, gruesa y abotargada por la humedad, palpas, pero no tiene picaporte ni suerte alguna de cerradura, sea como sea, estas atrapado. Justo a la altura de tus ojos, ves una especie de pequeña portezuela deslizable.
+
+
+#passage lookSumidero <% type:"info" %>
+Un pequeño agujero en el centro de la habitación, de hecho, parece que el suelo tiene cierta inclinación para que cualquier fluido escurra hasta esta especie de desagüe. Tendrá el tamaño de tu puño, y unas pequeñas barras metálicas lo cruzan para impedir que las ratas u otra clase de bichos lo atraviesen.
+
+
+#passage lookHedor <% type:"info" %>
+Indescriptible, solo provoca deseos de vomito cuando lo inhalas. Su fetidez infecta toda la habitación, pero se hace insoportable al acercarse al sumidero.
+
+
+#passage abrirPortezuela
+Deslizas la portezuela y una fulgurante luz inunda la habitación, tus ojos no lo soportan y tienes que apartar la mirada, lo que en condiciones normales supondria una potente luz de antorcha, para ti es como si miraras directamente al sol. Ahora puedes ver mejor la habitación donde te encuentras y lo que llevas contigo.
+
+[Continuar]...
+
+[Continuar <% touch:function(){ player.enableInventory() } %>]
+
+
+#passage lookLateral
+Sin lugar a dudas, algo tienes oculto en tu pantalon. Rompes la costura para acceder a una especie de bolsillo oculto, sacas un especie de cilindro achatado de un material similar a un cristal de sal, no sabes que es, aunque emite un ligero olor a azufre.
+
+[Continuar]...
+
+[Continuar <% touch:function(){ player.addItem('cristalSulfuroso') } %>]
+
+
+#passage usaCristalSulfurosoConLoQueSea
+golpeas el cristal contra el objeto y ves como saltan unas chispas a la vez que se desprende un fuerte olor a azufre. Decides parar, algo te dice que si continuas puede ser peligroso.
+
+
+#passage usaCristalSulfurosoConPuerta
+Te colocas en el extremo de la habitación y lanzas el cristal con suma violencia hacia la puerta. Un enorme destello precede a una enorme explosion que te proyecta de espaldas contra la pared, una insondable nube de humo es lo ultimo que ves antes de caer de bruces al suelo.
+
+Soledad...
+Dolor...
+Olvido...
+
+Recuperas la consciencia, ves la puerta de la habitación completamente destrozada, aparte de las gotas de agua, silencio... La puerta deja ver otra [habitacion] mucho mas espaciosa al otro lado. A duras penas, tus ojos se acostumbran a la luz.
+
+[habitacion <% touch:function(){
+	enableMap();
+} %>]
+
+
+
+#item RopaRaida Ropa Raida
+Es un juego de pantalón con una camisa hecha jirones. Sin luz ni lo habías notado, pero en un [lateral] de la camisa palpas algo duro del tamaño de una moneda, parece oculto en la tela.
+
+[lateral <% touch:function(){ turnTo('lookLateral') } %>]
+
+
+#item Capa
+Gruesa capa de invierno gis y negra, con una cálida capucha.
+
+
+#item Amuleto
+Colgado de tu cuello, un símbolo extraño tallado en plata y sostenido por un duro cordel de cuero. Tiene la forma de una luna oscura, con un montón de símbolos que no reconoces. No sabes por que, pero presientes que es algo importante para ti.
+
+
+#item cristalSulfuroso Cristal sulfuroso
+Una especie de cilindro achatado de un material similar a un cristal de sal, no sabes que es, aunque emite un ligero olor a azufre.
